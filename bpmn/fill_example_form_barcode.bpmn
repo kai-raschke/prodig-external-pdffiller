@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0w9zkii" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.2.4">
+  <bpmn:process id="fill_example_form_barcode" name="Fill example form with barcode" isExecutable="true" camunda:versionTag="1">
+    <bpmn:startEvent id="StartEvent_1" camunda:initiator="creator">
+      <bpmn:outgoing>SequenceFlow_180pnkx</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="ServiceTask_03ljdba" name="Generate PDF example" camunda:type="external" camunda:topic="prodig.test.external.pdffiller">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="formName">example_form</camunda:inputParameter>
+          <camunda:inputParameter name="identifier">${lastname}</camunda:inputParameter>
+          <camunda:inputParameter name="outputName">Example_filled</camunda:inputParameter>
+          <camunda:inputParameter name="output">binary</camunda:inputParameter>
+          <camunda:inputParameter name="transform">barcode</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_12ruf3p</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_05aynhn</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_180pnkx" sourceRef="StartEvent_1" targetRef="Task_0nvyrun" />
+    <bpmn:userTask id="Task_0nvyrun" name="Input some data" camunda:assignee="${creator}">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="firstname" label="First Name" type="string" />
+          <camunda:formField id="lastname" label="Last Name" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" config="true" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="more" label="More Infos" type="string" />
+          <camunda:formField id="chk_yes" label="Random Yes or No question?" type="enum">
+            <camunda:value id="Yes" name="Yes" />
+            <camunda:value id="No" name="No" />
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_180pnkx</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_12ruf3p</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_12ruf3p" sourceRef="Task_0nvyrun" targetRef="ServiceTask_03ljdba" />
+    <bpmn:sequenceFlow id="SequenceFlow_05aynhn" sourceRef="ServiceTask_03ljdba" targetRef="Task_1qhkero" />
+    <bpmn:userTask id="Task_1qhkero" name="Check variables in cockpit for filled form" camunda:assignee="${creator}">
+      <bpmn:incoming>SequenceFlow_05aynhn</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1crnux3</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_1p97l0q">
+      <bpmn:incoming>SequenceFlow_1crnux3</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1crnux3" sourceRef="Task_1qhkero" targetRef="EndEvent_1p97l0q" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="fill_example_form_barcode">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_03ljdba_di" bpmnElement="ServiceTask_03ljdba">
+        <dc:Bounds x="418" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_180pnkx_di" bpmnElement="SequenceFlow_180pnkx">
+        <di:waypoint x="209" y="120" />
+        <di:waypoint x="259" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_0txzflb_di" bpmnElement="Task_0nvyrun">
+        <dc:Bounds x="259" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_12ruf3p_di" bpmnElement="SequenceFlow_12ruf3p">
+        <di:waypoint x="359" y="120" />
+        <di:waypoint x="418" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_05aynhn_di" bpmnElement="SequenceFlow_05aynhn">
+        <di:waypoint x="518" y="120" />
+        <di:waypoint x="577" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_12s76d6_di" bpmnElement="Task_1qhkero">
+        <dc:Bounds x="577" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1p97l0q_di" bpmnElement="EndEvent_1p97l0q">
+        <dc:Bounds x="736" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1crnux3_di" bpmnElement="SequenceFlow_1crnux3">
+        <di:waypoint x="677" y="120" />
+        <di:waypoint x="736" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
