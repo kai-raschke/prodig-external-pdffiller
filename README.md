@@ -4,7 +4,7 @@ A Node.js microservice for handling Adobe Acrobat PDF forms.
 
 It can create, transform and handle the output.
 
-The project is based on camunda sdk, pdffiller (which utilizes ptftk) and a support package
+The project is based on camunda sdk, pdffiller (which utilizes pdftk) and a support package
 ([prodig-external-deps](https://www.npmjs.com/package/@kai-raschke/prodig-external-deps)).
 
 It was built with PM2 as process manager in mind so all settings are set in the
