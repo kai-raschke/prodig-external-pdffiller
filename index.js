@@ -53,6 +53,12 @@ let main = async function({ task, taskService }) {
         tempFiles.push(tempOutputFile);
     } catch(ex){
         console.error(ex);
+        await taskService.handleFailure(task, {
+            errorMessage: "An error occurred while creating the document.",
+            errorDetails: `${ex.errno}; ${ex.code}; ${ex.syscall}`,
+            retries: 0,
+            retryTimeout: 1000
+        });
     }
 
     //Do all transformations on newly created pdf with given transform variables from bpmn
