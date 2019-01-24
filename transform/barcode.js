@@ -20,8 +20,8 @@ let generateBarcode = async function(data, barcodePath){
         bwipjs.toBuffer({
             bcid:        'datamatrix',    // Barcode type
             text:        data,            // Text to encode
-            scale:       4,               // 3x scaling factor
-            height:      12,              // Bar height, in millimeters
+            scale:       3,               // 3x scaling factor
+            height:      28,              // Bar height, in millimeters
             includetext: true,            // Show human-readable text
             textxalign:  'center',        // Always good to set this
             rotate: 'L'
@@ -63,9 +63,9 @@ let addBarcode = async function(inputFile, proccessVariables, outputFile){
     outputFile = path.join(filePath, outputFile);
 
     let data = buildBarcodeData({
-        inboxTask: proccessVariables.inboxTask,
+        taskDefinitionKey: proccessVariables.inboxTask,
         processInstanceId: proccessVariables.processInstanceId,
-        bKey: proccessVariables.bKey
+        processInstanceBusinessKey: proccessVariables.bKey
     });
 
     let barcodePath = path.join(filePath, `${fileName}-barcode-${+new Date()}.png`);
@@ -75,7 +75,7 @@ let addBarcode = async function(inputFile, proccessVariables, outputFile){
         let pdfDoc = new HummusRecipe(inputFile, outputFile);
         try{
             pdfDoc.editPage(1);
-            pdfDoc.image(barcodePath, 568, 630, {width: 40, keepAspectRatio: true});
+            pdfDoc.image(barcodePath, 540, 715, {width: 60, keepAspectRatio: true});
             pdfDoc.endPage();
             pdfDoc.endPDF(function(){
                 fs.unlinkSync(barcodePath);
