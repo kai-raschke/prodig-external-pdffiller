@@ -17,9 +17,11 @@ class _task{
 }
 class _variables{
     constructor(){
-        this.mailTemplate = '';
-        this.mailVariables = '';
-        this.mailOptions = '';
+        this.bKey = '';
+        this.formName = '';
+        this.outputName = '';
+        this.identifier = '';
+        this.transform = '';
     }
 
     get(name){
@@ -28,6 +30,16 @@ class _variables{
 
     set(name, value){
         this[name] = value;
+    }
+
+    getAll(){
+        return {
+            bKey: this.bKey,
+            formName: this.formName,
+            outputName: this.outputName,
+            identifier: this.identifier,
+            transform: this.transform
+        };
     }
 }
 class _taskService{
@@ -68,6 +80,10 @@ const requestHandler = (request, response) => {
             if(content){
                 let t = new _task("org.prodig.pdf");
                 t.variables.set('bKey', [...Array(8)].map(i=>(~~(Math.random()*36)).toString(36)).join('') + '-A');
+                t.variables.set('formName', content.formName);
+                t.variables.set('outputName', content.outputName);
+                t.variables.set('identifier', content.identifier);
+                t.variables.set('transform', content.transform);
 
                 let service = new _taskService();
                 senderFn({task: t, taskService: service});
