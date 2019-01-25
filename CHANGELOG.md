@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.7 - 25/01/2019
+
+- Updated mock service to recent change of variables
+- Changed standard barcode (datamatrix) to more readable format
+
 ## 0.0.6 - 14/01/2019
 
 - Created docs and examples
