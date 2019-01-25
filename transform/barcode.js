@@ -22,12 +22,11 @@ let generateBarcode = async function(data, barcodePath){
             text:        data,            // Text to encode
             scale:       3,               // 3x scaling factor
             height:      28,              // Bar height, in millimeters
-            includetext: true,            // Show human-readable text
-            textxalign:  'center',        // Always good to set this
-            rotate: 'L'
+            includetext: false,            // Show human-readable text
         }, function (err, png) {
-            if(err)
+            if(err){
                 rej(err);
+            }
             else{
                 fs.open(barcodePath, 'w', function(err, fd) {
                     if (err) {
