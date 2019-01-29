@@ -72,9 +72,15 @@ let addBarcode = async function(inputFile, proccessVariables, outputFile){
 
     return new Promise((res, rej) => {
         let pdfDoc = new HummusRecipe(inputFile, outputFile);
+        let metadata = pdfDoc.metadata;
+        let page = metadata["1"];
+
+        let imagePosHeight = page.height - 75;
+        let imagePosWidth = page.width - 75;
+
         try{
             pdfDoc.editPage(1);
-            pdfDoc.image(barcodePath, 540, 715, {width: 60, keepAspectRatio: true});
+            pdfDoc.image(barcodePath, imagePosWidth, imagePosHeight, {width: 60, keepAspectRatio: true});
             pdfDoc.endPage();
             pdfDoc.endPDF(function(){
                 fs.unlinkSync(barcodePath);
