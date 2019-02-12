@@ -86,6 +86,10 @@ let uploadToNC = async function(outputFile, variablesIn, processVariables){
                             result.fileid = data.id;
                             result.fileLink = data.url;
                             result.filename = data.file_target;
+
+                            //Fix for API not returning https share link
+                            if(data.url.indexOf('http://') > -1)
+                                result.fileLink = data.url.replace('http://', 'https://');
                         }
                     }
                 }
