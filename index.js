@@ -15,6 +15,8 @@ if (!fs.existsSync(outputPath)){
 }
 
 let main = async function({ task, taskService }) {
+    await taskService.extendLock(task, process.env.LOCK_DURATION); //in case PDF creation takes longer
+
     let   variablesIn       = task.variables.getAll();
     variablesIn.processInstanceId = task.processInstanceId;
     variablesIn.transform = variablesIn.transform || '';
